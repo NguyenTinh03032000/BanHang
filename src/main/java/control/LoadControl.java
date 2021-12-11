@@ -27,7 +27,9 @@ public class LoadControl extends HttpServlet {
         DAO dao = new DAO();
         Product p = dao.getProductByID(id);
         List<Category> listC = dao.getAllCategory();
-
+        int tag = dao.getCateIDByIdP(id);
+        
+        request.setAttribute("tag", tag);
         request.setAttribute("detail", p);
         request.setAttribute("listCC", listC);
         request.getRequestDispatcher("Edit.jsp").forward(request, response);

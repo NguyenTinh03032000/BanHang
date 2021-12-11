@@ -22,6 +22,20 @@ public class DAO {
     PreparedStatement ps = null;
     ResultSet rs = null;
     
+    public int getCateIDByIdP(String i) {
+    	String query = "select cateID from product where id = ?";
+    	try {
+            conn = new DBContext().getConnection();//mo ket noi voi sql
+            ps = conn.prepareStatement(query);
+            ps.setString(1, i);
+            rs = ps.executeQuery();
+             while (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+        }
+        return 1;
+    }
     public List<Account> getAllAccount() {
         List<Account> list = new ArrayList<>();
         String query = "select * from Account";
@@ -449,12 +463,14 @@ public class DAO {
 
     public static void main(String[] args) {
         DAO dao = new DAO();
-        List<Product> list = dao.pagingProduct(2);
-        //List<Category> listC = dao.getAllCategory();
-
-        for (Product o : list) {
-            System.out.println(o);
-        }
+//        List<Product> list = dao.pagingProduct(2);
+//        List<Category> listC = dao.getAllCategory();
+//
+//        for (Product o : list) {
+//            System.out.println(o);
+//        }
+//        int idC = dao.getCateIDByIdP("23");
+//        System.out.println(idC);
     }
 
 }

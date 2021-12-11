@@ -70,7 +70,7 @@
                                     <label>Category</label>
                                     <select name="category" class="form-select" aria-label="Default select example">
                                         <c:forEach items="${listCC}" var="o">
-                                        	<option value="${o.cid}">${o.cname}</option>
+                                        	<option ${tag == o.cid ? "selected=selected":""} value="${o.cid}">${o.cname}</option>
                                         </c:forEach>
                                     </select>
                                 </div>

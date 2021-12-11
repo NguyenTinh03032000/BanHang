@@ -29,6 +29,7 @@ public class Product {
         this.description = description;
         this.amount = amount;
     }
+    
 
     public int getId() {
         return id;
