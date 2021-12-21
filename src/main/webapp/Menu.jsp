@@ -25,6 +25,12 @@
                     </li>
                 </c:if>
                 
+                <c:if test="${sessionScope.acc.isAdmin == 1}">
+                    <li class="nav-item">
+                        <a class="nav-link" href="managerCategory">Manager Category</a>
+                    </li>
+                </c:if>
+                
                 <c:if test="${sessionScope.acc.isSell == 1}">
                     <li class="nav-item">
                         <a class="nav-link" href="manager">Manager Product</a>

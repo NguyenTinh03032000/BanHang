@@ -21,7 +21,60 @@ public class DAO {
     Connection conn = null;
     PreparedStatement ps = null;
     ResultSet rs = null;
-    
+
+    public void editCategory(int cID,String cname) {
+    	String query = "update Category\n"
+                + "set [cname] = ?\n"
+                + "where cid = ?";
+        try {
+            conn = new DBContext().getConnection();//mo ket noi voi sql
+            ps = conn.prepareStatement(query);
+            ps.setString(1, cname);
+            ps.setInt(2, cID);
+
+            ps.executeUpdate();
+        } catch (Exception e) {
+        }
+    }
+    public Category getCategoryByID(String id) {
+        String query = "select * from Category\n"
+                + "where cid = ?";
+        try {
+            conn = new DBContext().getConnection();//mo ket noi voi sql
+            ps = conn.prepareStatement(query);
+            ps.setString(1, id);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                return new Category(rs.getInt(1),
+                        rs.getString(2));
+            }
+        } catch (Exception e) {
+        }
+        return null;
+    }
+    public void deleteCategory(String cid) {
+        String query = "delete from Category\n"
+                + "where cid = ?";
+        try {
+            conn = new DBContext().getConnection();//mo ket noi voi sql
+            ps = conn.prepareStatement(query);
+            ps.setString(1, cid);
+            ps.executeUpdate();
+        } catch (Exception e) {
+        }
+    }
+    public void insertCategory(String name) {
+    	String query = "INSERT [dbo].[category] \n"
+                + "([cname])\n"
+                + "VALUES(?)";
+        try {
+            conn = new DBContext().getConnection();//mo ket noi voi sql
+            ps = conn.prepareStatement(query);
+            ps.setString(1, name);
+            ps.executeUpdate();
+        } catch (Exception e) {
+        }
+    }
     public int getCateIDByIdP(String i) {
     	String query = "select cateID from product where id = ?";
     	try {
@@ -312,14 +365,19 @@ public class DAO {
 
     public List<Category> getAllCategory() {
         List<Category> list = new ArrayList<>();
-        String query = "select * from Category";
+        //String query = "select * from Category";
+        String query = "SELECT Category.cid,Category.cname, COUNT(*) AS dem\n"
+        		+ "FROM product,Category where product.cateID != Category.cid\n"
+        		+ "GROUP BY Category.cid,Category.cname  \n"
+        		+ "HAVING (COUNT(*) >= 0)";
         try {
             conn = new DBContext().getConnection();//mo ket noi voi sql
             ps = conn.prepareStatement(query);
             rs = ps.executeQuery();
             while (rs.next()) {
                 list.add(new Category(rs.getInt(1),
-                        rs.getString(2)));
+                        rs.getString(2),
+                        rs.getInt(3)));
             }
         } catch (Exception e) {
         }
@@ -463,6 +521,7 @@ public class DAO {
 
     public static void main(String[] args) {
         DAO dao = new DAO();
+        dao.insertCategory("Nokia");
 //        List<Product> list = dao.pagingProduct(2);
 //        List<Category> listC = dao.getAllCategory();
 //
