@@ -26,7 +26,7 @@ public class sendEmailControl extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         
 		final String username = "nguyenvantinh030320@gmail.com";
-        final String password = "";
+        final String password = "G03032000Tinh#M";
         Properties prop = new Properties();
         prop.put("mail.smtp.host","smtp.gmail.com");
         prop.put("mail.smtp.port","465");
